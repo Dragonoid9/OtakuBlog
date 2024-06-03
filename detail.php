@@ -54,7 +54,7 @@ if ($post !== false) {
                 <?php if ($post !== false): ?>
                     <h1><?= htmlspecialchars($post->title) ?></h1>
                     <h5 class="d-flex justify-content-between align-items-center">
-                        <a href="<?= url('category.php?cat_id=') . $post->cat_id ?>"><?= htmlspecialchars($post->category_name) ?></a>
+                        <a href="<?= url('category.php?cat_id=') . $post->cat_id ?>"><?= htmlspecialchars($post->category_name) ?>Category:</a>
                         <span class="date-time"><?= htmlspecialchars($post->created_at) ?></span>
                     </h5>
                     <article class="bg-article p-3">

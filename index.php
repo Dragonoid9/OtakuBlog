@@ -16,6 +16,14 @@
 <section id="app">
 
     <?php require_once "layouts/top-nav.php"?>
+    
+    <!-- Search Bar -->
+    <section class="container my-3">
+    <form class="form-inline my-2 my-lg-0 w-100" action="searchbar.php" method="get">
+            <input class="form-control mr-sm-2 flex-grow-1" type="search" placeholder="Search" aria-label="Search" name="query">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </section>
 
     <section class="container my-5">
         <!-- Example row of columns -->

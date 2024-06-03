@@ -41,10 +41,11 @@ if (session_status() === PHP_SESSION_NONE) {
         <a class="text-decoration-none text-white " href="<?= url('auth/login.php') ?>">login</a>
         <?php
                 } else { ?>
-
-        <a class="text-decoration-none text-white px-2 " href="<?= url('auth/logout.php') ?>">logout</a>
-
-        <?php } ?>
+                    <?php if (isset($_SESSION['username'])) { ?>
+                        <span class="text-white px-2">Welcome, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                    <?php } ?>
+                    <a class="text-decoration-none text-white px-2" href="<?= url('auth/logout.php') ?>">logout</a>
+                <?php } ?>        
 
     </section>
 </nav>
