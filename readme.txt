@@ -1,3 +1,5 @@
+Find the database script inside the asset/database 
+
 admin@gmail.com
 123456
 
