@@ -1,5 +1,3 @@
-find the latest database script in the asset
-
 admin@gmail.com
 123456
 
