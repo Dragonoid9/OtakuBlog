@@ -1,0 +1,55 @@
+.review, .reply {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.review-header strong {
+    font-size: 1.2em;
+}
+.reply {
+    background-color: #e9ecef;
+    margin-left: 30px;
+}
+.aggregate-rating {
+    font-size: 1.5em;
+    margin: 15px 0;
+}
+.star-rating {
+    display: flex;
+    direction: rtl;
+    font-size: 1.5em;
+}
+.star-rating input {
+    display: none;
+}
+.star-rating label {
+    color: #ccc;
+    cursor: pointer;
+}
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+color: #ffc107;
+font-size: 32px; /* Increase the size of the filled star icons */
+    }
+.star-rating input:checked ~ label:hover,
+.star-rating input:checked ~ label:hover ~ label,
+.star-rating label:hover ~ input:checked ~ label {
+    color: #28a745;
+}
+.aggregate-rating {
+font-size: 32px; /* Increase the size of the aggregate rating icon */
+font-weight: bold; /* Make the aggregate rating icon bold */
+font-weight: thick;
+}
+.displayStars {
+font-size: 24px; /* Increase the size of the display stars */
+font-weight: bold; /* Make the display stars bold */
+}
