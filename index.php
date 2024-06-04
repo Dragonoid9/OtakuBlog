@@ -37,7 +37,7 @@
                          foreach ($posts as $post) { ?>
            
                 <section class="col-md-4">
-                    <section class="mb-2 overflow-hidden" style="height: 15rem;"><img class="img-fluid" src="<?= asset($post->image) ?>" style="height:200px; width:400px;" alt=""></section>
+                    <section class="mb-2 overflow-hidden" style="height: 15rem;"><img class="img-fluid" src="<?= asset($post->image) ?>" style="height:200px; width:350px;" alt=""></section>
                     <h2 class="h5 text-truncate"><?= $post->title ?></h2>
                     <p><?= substr($post->body, 0, 80) ?></p>
                     <p><a class="btn btn-primary" href="<?php echo url('detail.php?post_id=') . $post->id ?>" role="button">View details »</a></p>

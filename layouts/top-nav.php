@@ -37,14 +37,14 @@ if (session_status() === PHP_SESSION_NONE) {
                 <?php 
                 if (!isset($_SESSION['user'])) {
                     ?>
-        <a class="text-decoration-none text-white px-2 " href="<?= url('auth/register.php') ?>">register</a>
-        <a class="text-decoration-none text-white " href="<?= url('auth/login.php') ?>">login</a>
+        <a class="text-decoration-none text-white px-2 " href="<?= url('auth/register.php') ?>">Register</a>
+        <a class="text-decoration-none text-white " href="<?= url('auth/login.php') ?>">Login</a>
         <?php
                 } else { ?>
                     <?php if (isset($_SESSION['username'])) { ?>
                         <span class="text-white px-2">Welcome, <?= htmlspecialchars($_SESSION['username']) ?></span>
                     <?php } ?>
-                    <a class="text-decoration-none text-white px-2" href="<?= url('auth/logout.php') ?>">logout</a>
+                    <a class="text-decoration-none text-white px-2" href="<?= url('auth/logout.php') ?>">Logout</a>
                 <?php } ?>        
 
     </section>

@@ -59,7 +59,7 @@ if ($post !== false) {
                     </h5>
                     <article class="bg-article p-3">
                         <img class="float-right mb-2 ml-2" style="width: 18rem;" src="<?= asset($post->image) ?>" alt="">
-                        <?= htmlspecialchars($post->body) ?>
+                        <?= ($post->body) ?>
                     </article>
                     <h2>Aggregate Rating: <?= number_format($aggregateRating, 1) ?> / 5 (<?= $totalReviews ?> reviews)</h2>
                     <?php if (isset($_SESSION['user'])): ?>
