@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary bg-gradient">
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary bg-gradient fixed-top">
 
     <a class="navbar-brand " href="<?= url('panel') ?>">Otaku Blog</a>
     <button class="navbar-toggler " type="button " data-toggle="collapse " data-target="#navbarSupportedContent " aria-controls="navbarSupportedContent " aria-expanded="false " aria-label="Toggle navigation ">

@@ -8,9 +8,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Otaku Blog</title>
-<!-- <link rel='stylesheet' type='text/css' href='//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'> -->
+
  <link rel="stylesheet" href="<?php echo asset('assets/css/bootstrap.min.css'); ?>" media="all" type="text/css">
     <link rel="stylesheet" href="<?php echo asset('assets/css/style.css'); ?>" media="all" type="text/css">
+    <style>
+    body {
+            padding-top: 56px; /* Height of the navbar */
+        }</style>
 </head>
 <body>
 <section id="app">
@@ -24,7 +28,7 @@
             <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
         </form>
     </section>
-
+    <hr>
     <section class="container my-5">
         <!-- Example row of columns -->
         <section class="row">
