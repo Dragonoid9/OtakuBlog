@@ -35,8 +35,8 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>name</th>
-                                <th>setting</th>
+                                <th>Name</th>
+                                <th>Setting</th>
                             </tr>
                         </thead>
                         <tbody>

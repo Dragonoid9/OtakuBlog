@@ -36,12 +36,12 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>image</th>
-                            <th>title</th>
-                            <th>category</th>
-                            <th>body</th>
-                            <th>status</th>
-                            <th>setting</th>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Body</th>
+                            <th>Status</th>
+                            <th>Setting</th>
                         </tr>
                         </thead>
                         <tbody>
