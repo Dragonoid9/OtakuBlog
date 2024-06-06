@@ -49,7 +49,8 @@ if ($post !== false) {
 function displayStars($rating, $maxRating = 5) {
     $stars = '';
     for ($i = 1; $i <= $maxRating; $i++) {
-        $stars .= $i <= $rating ? '<i class="fas fa-star text-success"></i>' : '<i class="far fa-star text-success"></i>';
+        $class = $i <= $rating ? 'fas fa-star text-warning rated' : 'far fa-star text-warning';
+        $stars .= '<i class="' . $class . '" style="font-size: ' . ($i <= $rating ? '2em' : '1em') . ';"></i>';
     }
     return $stars;
 }
@@ -70,7 +71,6 @@ function displayStars($rating, $maxRating = 5) {
     <?php require_once "layouts/top-nav.php" ?>
 
     <section class="container my-5">
-        
         <section class="row">
             <section class="col-md-12">
                 <?php if ($post !== false): ?>
@@ -110,55 +110,66 @@ function displayStars($rating, $maxRating = 5) {
                                 <label for="comment">Comment</label>
                                 <textarea name="comment" class="form-control" id="comment"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary mb-3">Submit Comment</button>
+                            <button type="submit" class="btn btn-primary submit-comment-btn">Submit Comment</button>
                         </form>
                     <?php else: ?>
                         <p>Please <a href="<?= url('auth/login.php') ?>">login</a> to leave a review.</p>
-                    <?php endif; ?>
+                   
+                        <?php endif; ?>
                     <!-- Display Comments and Replies -->
-                    <?php foreach ($comments as $comment): ?>
-                        <div class="comment">
-        <div class="comment-header">
-            <p><strong><?= htmlspecialchars($comment->first_name . ' ' . $comment->last_name) ?></strong> commented:</p>
-            <small><?= htmlspecialchars($comment->created_at) ?></small>
-        </div>
-        <p><?= htmlspecialchars($comment->comment) ?></p>
-        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-            <form action="<?= url('panel/post/delete_comment.php') ?>" method="post" style="display:inline-block;">
-                <input type="hidden" name="comment_id" value="<?= $comment->id ?>">
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-            </form>
-        <?php endif; ?>
-        <h6>Replies</h6>
-        <?php foreach ($replies[$comment->id] as $reply): ?>
-            <div class="reply">
-                <p><strong><?= htmlspecialchars($reply->first_name . ' ' . $reply->last_name) ?></strong> replied:</p>
-                <p><?= htmlspecialchars($reply->reply) ?></p>
-                <p><small><?= htmlspecialchars($reply->created_at) ?></small></p>
+<div class="comments-box">
+    <h2 class="comment-section">Comments</h2>
+    <?php foreach ($comments as $comment): ?>
+        <div class="comment">
+            <div class="comment-header">
+                <strong><?= htmlspecialchars($comment->first_name . ' ' . $comment->last_name) ?></strong>
+                <small><?= htmlspecialchars($comment->created_at) ?></small>
+            </div>
+            <p><?= htmlspecialchars($comment->comment) ?></p>
+            <div class="comment-actions">
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                    <form action="<?= url('panel/post/delete_reply.php') ?>" method="post" style="display:inline-block;">
-                        <input type="hidden" name="reply_id" value="<?= $reply->id ?>">
+                    <form action="<?= url('panel/post/delete_comment.php') ?>" method="post" style="display:inline-block;">
+                        <input type="hidden" name="comment_id" value="<?= $comment->id ?>">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                 <?php endif; ?>
             </div>
-        <?php endforeach; ?>
-        <?php if (isset($_SESSION['user'])): ?>
-            <form action="<?= url('public/post_reply.php') ?>" method="post">
-                <input type="hidden" name="comment_id" value="<?= $comment->id ?>">
-                <textarea name="reply" class="form-control" required></textarea>
-                <button type="submit" class="btn btn-primary mt-2">Reply</button>
-            </form>
-        <?php endif; ?>
-    </div>
-<?php endforeach; ?>
-                <?php else: ?>
-                    <section>Post not found!</section>
-                <?php endif; ?>
-            </section>
-        </section>
-    </section>
-
+            <h6>Replies</h6>
+            <?php foreach ($replies[$comment->id] as $reply): ?>
+                <div class="reply">
+                    <div class="reply-header">
+                        <strong><?= htmlspecialchars($reply->first_name . ' ' . $reply->last_name) ?></strong>
+                        <small><?= htmlspecialchars($reply->created_at) ?></small>
+                    </div>
+                    <p><?= htmlspecialchars($reply->reply) ?></p>
+                    <div class="reply-actions">
+                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                            <form action="<?= url('panel/post/delete_reply.php') ?>" method="post" style="display:inline-block;">
+                                <input type="hidden" name="reply_id" value="<?= $reply->id ?>">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+            <?php if (isset($_SESSION['user'])): ?>
+                <form action="<?= url('public/post_reply.php') ?>" method="post">
+                    <input type="hidden" name="comment_id" value="<?= $comment->id ?>">
+                    <div class="form-group">
+                        <textarea name="reply" class="form-control" required placeholder="Write a reply..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Reply</button>
+                </form>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+</div>
+<?php else: ?>
+    <section>Post not found!</section>
+<?php endif; ?>
+</section>
+</section>
+</section>
 </section>
 
 <script src="<?= asset('assets/js/jquery.min.js') ?>"></script>

@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once 'functions/helpers.php';
-require_once 'functions/pdo_connection.php';
+require_once '../functions/helpers.php';
+require_once '../functions/pdo_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $post_id = $_POST['post_id'];
@@ -39,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "Error: " . $e->getMessage();
-        // Optionally log the error message to a file or database for further inspection
     }
 }
 ?>

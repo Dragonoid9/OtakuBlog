@@ -1,55 +1,62 @@
-.review, .reply {
+.comments-box {
+    background: #fff;
+    border: 1px solid #776b6b;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+.comment {
+    background: #f9f9f9;
     border: 1px solid #ddd;
+    border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.review-header {
+.comment-header, .reply-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }
-.review-header strong {
-    font-size: 1.2em;
+.comment-header small, .reply-header small {
+    color: #999;
 }
-.reply {
-    background-color: #e9ecef;
-    margin-left: 30px;
+.comment-header strong, .reply-header strong {
+    font-size: 1.1em;
+    color: #333;
 }
-.aggregate-rating {
-    font-size: 1.5em;
-    margin: 15px 0;
-}
-.star-rating {
+.comment-actions, .reply-actions {
     display: flex;
-    direction: rtl;
-    font-size: 1.5em;
+    justify-content: flex-end;
+    margin-top: 10px;
 }
-.star-rating input {
-    display: none;
+.comment-actions form, .reply-actions form {
+    margin-left: 10px;
 }
 .star-rating label {
-    color: #ccc;
     cursor: pointer;
 }
-.star-rating label:hover,
-.star-rating label:hover ~ label,
-.star-rating input:checked ~ label {
-color: #ffc107;
-font-size: 32px; /* Increase the size of the filled star icons */
-    }
-.star-rating input:checked ~ label:hover,
-.star-rating input:checked ~ label:hover ~ label,
-.star-rating label:hover ~ input:checked ~ label {
-    color: #28a745;
+.star-rating input[type="radio"] {
+    display: none;
 }
-.aggregate-rating {
-font-size: 32px; /* Increase the size of the aggregate rating icon */
-font-weight: bold; /* Make the aggregate rating icon bold */
-font-weight: thick;
+.star-rating label i {
+    font-size: 1.5em;
+    color: #ccc;
+    transition: color 0.2s ease;
 }
-.displayStars {
-font-size: 24px; /* Increase the size of the display stars */
-font-weight: bold; /* Make the display stars bold */
+.star-rating input[type="radio"]:checked ~ label i {
+    color: #ffc107;
+}
+.star-rating input[type="radio"]:hover ~ label i {
+    color: #ffc107;
+}
+.comment-section {
+    margin-top: 20px;
+}
+.submit-comment-btn {
+    margin-top: 15px;
 }
