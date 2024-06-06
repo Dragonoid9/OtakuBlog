@@ -46,6 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="<?= asset('assets/css/bootstrap.min.css') ?>" media="all" type="text/css">
     <link rel="stylesheet" href="<?= asset('assets/css/style.css') ?>" media="all" type="text/css">
     <link rel="stylesheet" href="<?= asset('assets/css/style1.css') ?>" media="all" type="text/css">
+    <style>
+    body {
+            padding-top: 56px; /* Height of the navbar */
+        }</style>
 </head>
 
 <body>
