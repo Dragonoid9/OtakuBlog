@@ -10,12 +10,11 @@ if (!isset($_SESSION['user'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $post_id = $_POST['post_id'];
     $user_id = $_SESSION['user_id'];
-    $rating = $_POST['rating'];
     $comment = $_POST['comment'];
 
-    $query = "INSERT INTO reviews (post_id, user_id, rating, comment, created_at) VALUES (?, ?, ?, ?, NOW())";
+    $query = "INSERT INTO comments (user_id, post_id, comment, approved, created_at) VALUES (?, ?, ?, FALSE, NOW())";
     $statement = $pdo->prepare($query);
-    $statement->execute([$post_id, $user_id, $rating, $comment]);
+    $statement->execute([$user_id, $post_id, $comment]);
 
     // Redirect back to the detail page
     redirect('detail.php?post_id=' . $post_id);

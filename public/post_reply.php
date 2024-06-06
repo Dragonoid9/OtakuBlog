@@ -8,16 +8,20 @@ if (!isset($_SESSION['user'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $review_id = $_POST['review_id'];
-    $post_id = $_POST['post_id'];
+    $comment_id = $_POST['comment_id'];
     $user_id = $_SESSION['user_id'];
-    $comment = $_POST['comment'];
+    $reply = $_POST['reply'];
 
-    $query = "INSERT INTO replies (review_id, user_id, comment, created_at) VALUES (?, ?, ?, NOW())";
+    $query = "INSERT INTO replies (comment_id, user_id, reply, approved, created_at) VALUES (?, ?, ?, FALSE, NOW())";
     $statement = $pdo->prepare($query);
-    $statement->execute([$review_id, $user_id, $comment]);
+    $statement->execute([$comment_id, $user_id, $reply]);
 
-    // Redirect back to the detail page
-    redirect('detail.php?post_id=' . $post_id);
+    // Get the post ID to redirect back to the detail page
+    $query = "SELECT post_id FROM comments WHERE id = ?";
+    $statement = $pdo->prepare($query);
+    $statement->execute([$comment_id]);
+    $comment = $statement->fetch();
+
+    redirect('detail.php?post_id=' . $comment->post_id);
 }
 ?>

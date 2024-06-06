@@ -8,27 +8,28 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'admin') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $comment_id = $_POST['comment_id'];
+    $reply_id = $_POST['reply_id'];
 
-    // Get the post_id to redirect back to the detail page
+    // Get the comment_id to redirect back to the detail page
+    $query = "SELECT comment_id FROM replies WHERE id = ?";
+    $statement = $pdo->prepare($query);
+    $statement->execute([$reply_id]);
+    $reply = $statement->fetch();
+
+    // Get the post_id from the comment
     $query = "SELECT post_id FROM comments WHERE id = ?";
     $statement = $pdo->prepare($query);
-    $statement->execute([$comment_id]);
+    $statement->execute([$reply->comment_id]);
     $comment = $statement->fetch();
 
     try {
         // Start transaction
         $pdo->beginTransaction();
 
-        // Delete replies associated with the comment
-        $query = "DELETE FROM replies WHERE comment_id = ?";
+        // Delete the reply
+        $query = "DELETE FROM replies WHERE id = ?";
         $statement = $pdo->prepare($query);
-        $statement->execute([$comment_id]);
-
-        // Delete the comment
-        $query = "DELETE FROM comments WHERE id = ?";
-        $statement = $pdo->prepare($query);
-        $statement->execute([$comment_id]);
+        $statement->execute([$reply_id]);
 
         // Commit transaction
         $pdo->commit();

@@ -9,5 +9,8 @@
     <section class="sidebar-link">
         <a href="<?= url('panel/post') ?>">Post</a>
     </section>
+    <section class="sidebar-link">
+        <a href="<?= url('panel/review') ?>">Review</a>
+    </section>
 </section>
 
