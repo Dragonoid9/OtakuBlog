@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../../functions/helpers.php';
 require_once '../../functions/pdo_connection.php';
 require_once '../../functions/auth.php';
@@ -24,26 +23,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $query = "SELECT * FROM categories WHERE id = ?;";
-        $statement = $pdo->prepare($query);
-        $statement->execute([$_POST['cat_id']]);
-        $category = $statement->fetch();
-
-        $allowedMimes = ['png', 'jpg', 'gif', 'jpeg'];
-        $imageMime = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-        if (!in_array($imageMime, $allowedMimes)) {
-            redirect('panel/post');
-        }
-
-        $basePath = dirname(dirname(__DIR__));
-        $image = '/assets/images/posts/' . date('Y_m_d_H_i_s') . '.' . $imageMime;
-        $image_upload = move_uploaded_file($_FILES['image']['tmp_name'], $basePath . $image);
-        if ($category !== false && $image_upload !== false) {
-            $query = "INSERT INTO posts SET title = ?, cat_id = ?, body = ?, image = ?, created_at = NOW() ;";
+        try {
+            $query = "SELECT * FROM categories WHERE id = ?;";
             $statement = $pdo->prepare($query);
-            $statement->execute([$_POST['title'], $_POST['cat_id'], $_POST['body'], $image]);
+            $statement->execute([$_POST['cat_id']]);
+            $category = $statement->fetch();
+
+            $allowedMimes = ['png', 'jpg', 'gif', 'jpeg'];
+            $imageMime = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            if (!in_array($imageMime, $allowedMimes)) {
+                redirect('panel/post');
+            }
+
+            $basePath = dirname(dirname(__DIR__));
+            $image = '/assets/images/posts/' . date('Y_m_d_H_i_s') . '.' . $imageMime;
+            $image_upload = move_uploaded_file($_FILES['image']['tmp_name'], $basePath . $image);
+            if ($category !== false && $image_upload !== false) {
+                $query = "INSERT INTO posts SET title = ?, cat_id = ?, body = ?, image = ?, created_at = NOW() ;";
+                $statement = $pdo->prepare($query);
+                $statement->execute([$_POST['title'], $_POST['cat_id'], $_POST['body'], $image]);
+                redirect('panel/post');
+            }
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) { // Unique constraint violation
+                $errors['title'] = 'A post with this title already exists.';
+            } else {
+                $errors['general'] = 'An unexpected error occurred. Please try again later.';
+            }
         }
-        redirect('panel/post');
     }
 }
 ?>
@@ -114,6 +121,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <section class="form-group">
                         <button type="submit" class="btn btn-primary">Create</button>
                     </section>
+                    <?php if (isset($errors['general'])): ?>
+                        <section class="form-group">
+                            <div class="error"><?= $errors['general'] ?></div>
+                        </section>
+                    <?php endif; ?>
                 </form>
 
             </section>

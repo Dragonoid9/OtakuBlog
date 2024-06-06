@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once '../../functions/helpers.php';
 require_once '../../functions/pdo_connection.php';
 require_once '../../functions/auth.php';
@@ -11,10 +14,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $query = "INSERT INTO categories SET name = ?, created_at = NOW() ;";
-        $statement = $pdo->prepare($query);
-        $statement->execute([$_POST['name']]);
-        redirect('panel/category');
+        try {
+            $query = "INSERT INTO categories SET name = ?, created_at = NOW() ;";
+            $statement = $pdo->prepare($query);
+            $statement->execute([$_POST['name']]);
+            redirect('panel/category');
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) { // Unique constraint violation
+                $errors['name'] = 'Category name already exists.';
+            } else {
+                $errors['general'] = 'An unexpected error occurred. Please try again later.';
+            }
+        }
     }
 }
 ?>
@@ -43,9 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <section class="row">
                 <section class="col-md-2 p-0">
                     <?php require_once '../layouts/sidebar.php'; ?>
-
+                    
                 </section>
                 <section class="col-md-10 pt-3">
+                    <?php if (isset($errors['general'])): ?>
+                        <div class="alert alert-danger"><?= $errors['general'] ?></div>
+                    <?php endif; ?>
 
                     <form action="<?= url('panel/category/create.php') ?>" method="post">
                         <section class="form-group">
@@ -58,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <section class="form-group">
                             <button type="submit" class="btn btn-primary">Create</button>
                         </section>
-                        
+
                     </form>
 
                 </section>
