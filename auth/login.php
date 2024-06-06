@@ -26,12 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     redirect('index.php');
                 }
-            } 
+            } else {
+                $error = 'Email or Password is incorrect.';
+            }
         } else {
             $error = 'Email or Password is incorrect.';
         }
-    } 
-    else {
+    } else {
         $error = 'All fields are required';
     }
 }
