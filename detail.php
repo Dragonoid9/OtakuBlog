@@ -94,15 +94,15 @@ function displayStars($rating, $maxRating = 5) {
                             <div class="form-group">
                                 <label for="rating">Rating</label>
                                 <div class="star-rating">
-                                    <input type="radio" name="rating" id="star5" value="5" <?= $userRating == 5 ? 'checked' : '' ?>><label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="rating" id="star4" value="4" <?= $userRating == 4 ? 'checked' : '' ?>><label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="rating" id="star3" value="3" <?= $userRating == 3 ? 'checked' : '' ?>><label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="rating" id="star2" value="2" <?= $userRating == 2 ? 'checked' : '' ?>><label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
-                                    <input type="radio" name="rating" id="star1" value="1" <?= $userRating == 1 ? 'checked' : '' ?>><label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <input type="radio" name="rating" id="star<?= $i ?>" value="<?= $i ?>" <?= $userRating == $i ? 'checked' : '' ?>>
+                                        <label for="star<?= $i ?>" title="<?= $i ?> stars" data-value="<?= $i ?>"><i class="fas fa-star"></i></label>
+                                    <?php endfor; ?>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary mb-3">Submit Rating</button>
                         </form>
+
                         <h2>Leave a Comment</h2>
                         <form action="<?= url('public/post_comment.php') ?>" method="post">
                             <input type="hidden" name="post_id" value="<?= $post->id ?>">
@@ -176,22 +176,47 @@ function displayStars($rating, $maxRating = 5) {
 <script src="<?= asset('assets/js/bootstrap.min.js') ?>"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const stars = document.querySelectorAll('.star-rating label');
         const starInputs = document.querySelectorAll('.star-rating input');
-        starInputs.forEach(star => {
-            star.addEventListener('change', function () {
+
+        function highlightStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.querySelector('i').style.color = '#ffc107';
+                    star.querySelector('i').style.fontSize = '2em';
+                } else {
+                    star.querySelector('i').style.color = '#ccc';
+                    star.querySelector('i').style.fontSize = '1em';
+                }
+            });
+        }
+
+        starInputs.forEach(starInput => {
+            starInput.addEventListener('change', function () {
                 const ratingValue = this.value;
-                const starsContainer = this.closest('.star-rating');
-                const labels = starsContainer.querySelectorAll('label');
-                labels.forEach((label, index) => {
-                    if (index < ratingValue) {
-                        label.style.color = '#ffc107';
-                    } else {
-                        label.style.color = '#ccc';
-                    }
-                });
+                highlightStars(ratingValue);
             });
         });
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function () {
+                const ratingValue = this.getAttribute('data-value');
+                highlightStars(ratingValue);
+            });
+
+            star.addEventListener('mouseout', function () {
+                const checkedInput = document.querySelector('.star-rating input:checked');
+                const ratingValue = checkedInput ? checkedInput.value : 0;
+                highlightStars(ratingValue);
+            });
+        });
+
+        // Set initial highlight based on checked input
+        const checkedInput = document.querySelector('.star-rating input:checked');
+        if (checkedInput) {
+            highlightStars(checkedInput.value);
+        }
     });
-</script>
+    </script>
 </body>
 </html>
